@@ -3,6 +3,7 @@ package com.nzy.aac;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -96,22 +97,44 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void run() {
                                     long sum = END_TIME - STAR_TTIME;
-                                    long num = END_TIME - progress;
+                                    long num = progress - STAR_TTIME;
 
                                     long percent = num * 100 / sum;
-                                    mTvProgress.setText("进度是："+percent);
+                                    String content  =  "进度是：" + percent + "%";
+                                    if(percent>=100){
+                                        content = "进度是：转换完成";
+                                    }
 
+                                    mTvProgress.setText(content);
 
                                 }
                             });
                         }
                     });
 
+                   play();
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         }).start();
+    }
+
+    private void play() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                MediaPlayer player = new MediaPlayer();
+                try {
+                    player.setDataSource(outMp3Path);
+                    player.prepare();
+                    player.start();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
 

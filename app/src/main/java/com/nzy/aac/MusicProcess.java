@@ -25,7 +25,7 @@ public class MusicProcess {
         mContext = context;
     }
 
-    public void clip(String musicPath, String musicPcmPath,String outMp3Path, long startTime, long endTime,CallBack callBack) throws IOException {
+    public void clip(String musicPath, String musicPcmPath, String outMp3Path, long startTime, long endTime, CallBack callBack) throws IOException {
         Log.i(TAG, "转换开始");
         // 解封装 封装格式 mp3 ,mp3 封装着 aac
         MediaExtractor mediaExtractor = new MediaExtractor();
@@ -71,7 +71,7 @@ public class MusicProcess {
 
                 // 拿到时间
                 long sampleTime = mediaExtractor.getSampleTime();
-                Log.e(TAG, index + "---"+sampleTime);
+                Log.e(TAG, index + "---" + sampleTime);
                 callBack.progress(sampleTime);
                 if (sampleTime == -1) {
                     //     结束
@@ -153,7 +153,7 @@ public class MusicProcess {
     }
 
 
-    public interface CallBack{
+    public interface CallBack {
         void progress(long progress);
     }
 }
