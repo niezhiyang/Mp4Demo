@@ -3,6 +3,7 @@ package com.nzy.aac;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
+import android.media.AudioFormat;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
@@ -90,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 try {
                     // 编码都是 微秒
-                    musicProcess.clip(musicPath, musicPcmPath, outMp3Path, STAR_TTIME, END_TIME, new MusicProcess.CallBack() {
+                    MusicProcess.music2Pcm(musicPath, musicPcmPath, STAR_TTIME, END_TIME, new MusicProcess.CallBack() {
                         @Override
                         public void progress(long progress) {
                             runOnUiThread(new Runnable() {
@@ -100,8 +101,8 @@ public class MainActivity extends AppCompatActivity {
                                     long num = progress - STAR_TTIME;
 
                                     long percent = num * 100 / sum;
-                                    String content  =  "进度是：" + percent + "%";
-                                    if(percent>=100){
+                                    String content = "进度是：" + percent + "%";
+                                    if (percent >= 100) {
                                         content = "进度是：转换完成";
                                     }
 
@@ -112,7 +113,8 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
 
-                   play();
+
+                    play();
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -122,6 +124,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void play() {
+        // pcm数据转换成mp3封装格式
+        new PcmToWavUtil(44100, AudioFormat.CHANNEL_IN_STEREO,
+                2, AudioFormat.ENCODING_PCM_16BIT).pcmToWav(musicPcmPath, outMp3Path);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
