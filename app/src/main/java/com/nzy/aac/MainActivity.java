@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         /**
          * 截取音频，不能直接截取aac ，需要截取 pcm ，然后截取
          */
-        musicProcess = new MusicProcess(this);
+        musicProcess = new MusicProcess();
 
 
     }

@@ -7,9 +7,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-/**
- * Created by huangwei on 2018/2/9.
- */
 
 public class PcmToWavUtil {
     private int mBufferSize;  //缓存的音频大小

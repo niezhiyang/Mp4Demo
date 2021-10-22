@@ -1,10 +1,10 @@
 package com.nzy.aac;
 
-import android.content.Context;
 import android.media.AudioFormat;
 import android.media.MediaCodec;
 import android.media.MediaExtractor;
 import android.media.MediaFormat;
+import android.media.MediaMetadataRetriever;
 import android.util.Log;
 
 import java.io.File;
@@ -19,11 +19,7 @@ import java.nio.channels.FileChannel;
  */
 public class MusicProcess {
     private static final String TAG = "MusicProcess";
-    private Context mContext;
 
-    public MusicProcess(Context context) {
-        mContext = context;
-    }
 
     public void clip(String musicPath, String musicPcmPath, String outMp3Path, long startTime, long endTime, CallBack callBack) throws IOException {
         Log.i(TAG, "转换开始");
@@ -31,6 +27,12 @@ public class MusicProcess {
         MediaExtractor mediaExtractor = new MediaExtractor();
         // 设置文件路径
         mediaExtractor.setDataSource(musicPath);
+
+        MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
+        mediaMetadataRetriever.setDataSource(musicPath);
+        //读取音乐时间
+        final int aacDurationMs = Integer.parseInt(mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION));
+        mediaMetadataRetriever.release();
 
         // 音频流 轨道的index
         int audioTrack = selectTrack(mediaExtractor);
@@ -95,7 +97,7 @@ public class MusicProcess {
                 buffer.get(content);
 
                 // 把这个写到txt 文件中中 以便于我们观察
-                FileUtils.writeContent(content, mContext);
+                FileUtils.writeContent(content);
 
                 // 解码
                 ByteBuffer inputBuffer = mediaCodec.getInputBuffer(index);

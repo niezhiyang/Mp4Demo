@@ -1,6 +1,5 @@
 package com.nzy.aac;
 
-import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
 
@@ -32,7 +31,7 @@ public class FileUtils {
             }
         }
     }
-    public  static String writeContent(byte[] array, Context context) {
+    public  static String writeContent(byte[] array) {
         char[] HEX_CHAR_TABLE = {
                 '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
         };
@@ -45,7 +44,7 @@ public class FileUtils {
         FileWriter writer = null;
         try {
             // 打开一个写文件器，构造函数中的第二个参数true表示以追加形式写文件
-            writer = new FileWriter(context.getFilesDir() + "/codecH265.txt", true);
+            writer = new FileWriter(Environment.getExternalStorageDirectory() + "/geshi.txt", true);
             writer.write(sb.toString());
             writer.write("\n");
         } catch (IOException e) {
