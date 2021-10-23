@@ -154,4 +154,8 @@ public class MainActivity extends AppCompatActivity {
     public void addBg(View view) {
         startActivity(new Intent(MainActivity.this,AddBgForMp4Activity.class));
     }
+
+    public void mergeVido(View view) {
+        startActivity(new Intent(MainActivity.this,AppendVideoActivity.class));
+    }
 }

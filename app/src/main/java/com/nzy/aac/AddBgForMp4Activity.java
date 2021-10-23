@@ -166,7 +166,7 @@ public class AddBgForMp4Activity extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    MusicProcess.mixAudioTrack(
+                    MusicProcess2.mixAudioTrack(
                             videoFile.getAbsolutePath(),
                             audioFile.getAbsolutePath(),
                             outputFile.getAbsolutePath(),
