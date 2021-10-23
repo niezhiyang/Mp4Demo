@@ -1,6 +1,7 @@
 package com.nzy.aac;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
 import android.media.AudioFormat;
@@ -68,15 +69,15 @@ public class MainActivity extends AppCompatActivity {
         }
         File fileMusic = new File(file, "music.mp3");
         if (fileMusic.exists()) {
-            fileMusic.delete();
+//            fileMusic.delete();
         }
         File filePcm = new File(file, "out.pcm");
         if (filePcm.exists()) {
-            filePcm.delete();
+//            filePcm.delete();
         }
         File fileOutMp3 = new File(file, "out.mp3");
         if (fileOutMp3.exists()) {
-            fileOutMp3.delete();
+//            fileOutMp3.delete();
         }
         musicPath = fileMusic.getAbsolutePath();
         musicPcmPath = filePcm.getAbsolutePath();
@@ -91,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 try {
                     // 编码都是 微秒
-                    MusicProcess.music2Pcm(musicPath, musicPcmPath, STAR_TTIME, END_TIME, new MusicProcess.CallBack() {
+                    MusicProcess.videoOrAudio2Pcm(musicPath, musicPcmPath, STAR_TTIME, END_TIME, new MusicProcess.CallBack() {
                         @Override
                         public void progress(long progress) {
                             runOnUiThread(new Runnable() {
@@ -148,5 +149,9 @@ public class MainActivity extends AppCompatActivity {
         FileChannel from = new FileInputStream(assetFileDescriptor.getFileDescriptor()).getChannel();
         FileChannel to = new FileOutputStream(path).getChannel();
         from.transferTo(assetFileDescriptor.getStartOffset(), assetFileDescriptor.getLength(), to);
+    }
+
+    public void addBg(View view) {
+        startActivity(new Intent(MainActivity.this,AddBgForMp4Activity.class));
     }
 }

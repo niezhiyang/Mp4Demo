@@ -147,14 +147,25 @@ public class AddBgForMp4Activity extends AppCompatActivity {
         return false;
     }
     public void music(View view) {
-        File cacheDir =  Environment.getExternalStorageDirectory();
+        File cacheDir = new File(Environment.getExternalStorageDirectory(), "AAC");
+        if (!cacheDir.exists()) {
+            cacheDir.mkdir();
+        }
         final File videoFile = new File(cacheDir, "input.mp4");
         final File audioFile = new File(cacheDir, "music.mp3");
         final File outputFile = new File(cacheDir, "output.mp4");
+
+
         new Thread(){
             @Override
             public void run() {
                 try {
+                    try {
+                        copyAssets("music.mp3", audioFile.getAbsolutePath());
+                        copyAssets("input.mp4", videoFile.getAbsolutePath());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     MusicProcess.mixAudioTrack(
                             videoFile.getAbsolutePath(),
                             audioFile.getAbsolutePath(),
@@ -169,7 +180,7 @@ public class AddBgForMp4Activity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        startPlay(new File(Environment.getExternalStorageDirectory(), "output.mp4").getAbsolutePath());
+                        startPlay(outputFile.getAbsolutePath());
                         Toast.makeText(AddBgForMp4Activity.this, "剪辑完毕", Toast.LENGTH_SHORT).show();
                     }
                 });
